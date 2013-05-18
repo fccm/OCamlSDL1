@@ -17,6 +17,7 @@ CFLAGS =	@CFLAGS@
 RANLIB =        @RANLIB@
 OBJEXT =        @OBJEXT@
 A =		a
+LIBEXT =        so
 SYSLIB =        -l$(1)
 
 OCAMLC = 	@OCAMLC@

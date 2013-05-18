@@ -9,6 +9,7 @@ CFLAGS   = /O
 RANLIB   =
 OBJEXT   = obj
 A        = lib
+LIBEXT   = dll
 SYSLIB   = $(1).lib
 
 OCAMLC     = ocamlc

@@ -27,35 +27,35 @@ sdl.cma : $(call ML_OBJS,sdl)
 	$(call MKCMA,sdl,sdlstub,$^,$(SDL_LIBS))
 sdl.cmxa : $(call ML_OPT_OBJS,sdl)
 	$(call MKCMXA,sdl,sdlstub,$^,$(SDL_LIBS))
-libsdlstub.$(A) dllsdlstub.so : $(call STUB_OBJS,sdl)
+libsdlstub.$(A) dllsdlstub.$(LIBEXT) : $(call STUB_OBJS,sdl)
 	$(call MKCLIB,sdl,sdlstub,$^,$(SDL_LIBS))
 
 sdlloader.cma : $(call ML_OBJS,loader)
 	$(call MKCMA,sdlloader,sdlloaderstub,$^,$(call SYSLIB,SDL_image))
 sdlloader.cmxa : $(call ML_OPT_OBJS,loader)
 	$(call MKCMXA,sdlloader,sdlloaderstub,$^,$(call SYSLIB,SDL_image))
-libsdlloaderstub.$(A) dllsdlloaderstub.so : $(call STUB_OBJS,loader)
+libsdlloaderstub.$(A) dllsdlloaderstub.$(LIBEXT) : $(call STUB_OBJS,loader)
 	$(call MKCLIB,sdlloader,sdlloaderstub,$^,$(call SYSLIB,SDL_image))
 
 sdlmixer.cma : $(call ML_OBJS,mixer)
 	$(call MKCMA,sdlmixer,sdlmixerstub,$^,$(call SYSLIB,SDL_mixer))
 sdlmixer.cmxa : $(call ML_OPT_OBJS,mixer)
 	$(call MKCMXA,sdlmixer,sdlmixerstub,$^,$(call SYSLIB,SDL_mixer))
-libsdlmixerstub.$(A) dllsdlmixerstub.so : $(call STUB_OBJS,mixer)
+libsdlmixerstub.$(A) dllsdlmixerstub.$(LIBEXT) : $(call STUB_OBJS,mixer)
 	$(call MKCLIB,sdlmixer,sdlmixerstub,$^,$(call SYSLIB,SDL_mixer))
 
 sdlttf.cma : $(call ML_OBJS,ttf)
 	$(call MKCMA,sdlttf,sdlttfstub,$^,$(call SYSLIB,SDL_ttf))
 sdlttf.cmxa : $(call ML_OPT_OBJS,ttf)
 	$(call MKCMXA,sdlttf,sdlttfstub,$^,$(call SYSLIB,SDL_ttf))
-libsdlttfstub.$(A) dllsdlttfstub.so : $(call STUB_OBJS,ttf)
+libsdlttfstub.$(A) dllsdlttfstub.$(LIBEXT) : $(call STUB_OBJS,ttf)
 	$(call MKCLIB,sdlttf,sdlttfstub,$^,$(call SYSLIB,SDL_ttf))
 
 sdlgfx.cma : $(call ML_OBJS,gfx)
 	$(call MKCMA,sdlgfx,sdlgfxstub,$^,$(call SYSLIB,SDL_gfx))
 sdlgfx.cmxa : $(call ML_OPT_OBJS,gfx)
 	$(call MKCMXA,sdlgfx,sdlgfxstub,$^,$(call SYSLIB,SDL_gfx))
-libsdlgfxstub.$(A) dllsdlgfxstub.so : $(call STUB_OBJS,gfx)
+libsdlgfxstub.$(A) dllsdlgfxstub.$(LIBEXT) : $(call STUB_OBJS,gfx)
 	$(call MKCLIB,sdlgfx,sdlgfxstub,$^,$(call SYSLIB,SDL_gfx))
 
 
@@ -81,14 +81,14 @@ ifeq ($(PLATFORM),Apple)
 endif
 install-dll:
 	$(INSTALL) -d $(DESTDIR)$(OCAMLLIBDIR)/stublibs
-	$(INSTALL) dll*.so $(DESTDIR)$(OCAMLLIBDIR)/stublibs
+	$(INSTALL) dll*.$(LIBEXT) $(DESTDIR)$(OCAMLLIBDIR)/stublibs
 
 ifdef OCAMLFIND
 install-findlib :
 	$(OCAMLFIND) install sdl ../META \
           *.cma lib*.$(A) *.cmi *.mli \
           $(if $(OCAMLOPT),*.cmxa sdl*.$(A) *.cmx) \
-          $(if $(OCAMLMKLIB),dll*.so)
+          $(if $(OCAMLMKLIB),dll*.$(LIBEXT))
 ifeq ($(PLATFORM),Apple)
 	$(RANLIB) $$($(OCAMLFIND) printconf destdir)/sdl/*.$(A)
 endif
@@ -115,7 +115,7 @@ doc : ; $(error "you need ocamldoc to generate the documentation")
 endif
 
 clean:
-	rm -f *.cm* *.$(OBJEXT) *.$(A) *.so *.do
+	rm -f *.cm* *.$(OBJEXT) *.$(A) *.$(LIBEXT) *.do
 
 depend: .depend .depend.c
 
